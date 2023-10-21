@@ -1,0 +1,29 @@
+[
+    {
+        "id": 10003,
+        "idCliente": "10000",
+        "fechaEntrada": "2023-10-10",
+        "fechaSalida": "2023-10-11",
+        "tipoHabitacion": null,
+        "importe": "100",
+        "": null
+    },
+    {
+        "id": 10004,
+        "idCliente": "10000",
+        "fechaEntrada": "2023-10-10",
+        "fechaSalida": "2023-10-11",
+        "tipoHabitacion": null,
+        "importe": "100",
+        "": null
+    },
+    {
+        "id": 10005,
+        "idCliente": "10000",
+        "fechaEntrada": "2023-10-10",
+        "fechaSalida": "2023-10-11",
+        "tipoHabitacion": null,
+        "importe": "100",
+        "suite": "suite"
+    }
+]

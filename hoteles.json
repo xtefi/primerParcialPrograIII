@@ -1,0 +1,41 @@
+[
+    {
+        "id": 10000,
+        "nombre": "Pichu",
+        "apellido": "Mordecai",
+        "tipoDocumento": "dni",
+        "nroDocumento": "32735112",
+        "email": "pichu@corp.com",
+        "tipoCliente": "corporativo",
+        "pais": "Kazajistan",
+        "ciudad": "Zhezkazgan",
+        "telefono": "7896541050",
+        "foto": null
+    },
+    {
+        "id": 10001,
+        "nombre": "James",
+        "apellido": "Kirk",
+        "tipoDocumento": "dni",
+        "nroDocumento": "12345678",
+        "email": "jamestkirk@enterprise.com",
+        "tipoCliente": "corporativo",
+        "pais": "Kazajistan",
+        "ciudad": "Zhezkazgan",
+        "telefono": "7896541050",
+        "foto": null
+    },
+    {
+        "id": 10002,
+        "nombre": "Mr",
+        "apellido": "Spock",
+        "tipoDocumento": "dni",
+        "nroDocumento": "87654321",
+        "email": "spock@enterprise.com",
+        "tipoCliente": "corporativo",
+        "pais": "Kazajistan",
+        "ciudad": "Zhezkazgan",
+        "telefono": "7896541050",
+        "foto": null
+    }
+]

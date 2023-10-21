@@ -13,30 +13,52 @@
 // De lo contrario informar si no existe la combinación de nro y tipo de cliente o, si existe
 // el número y no el tipo para dicho número, el mensaje: “tipo de cliente incorrecto”.
 
-public $nombre;
-public $apellido;
-public $tipoDocumento;
-public $nroDocumento;
-public $email;
-public $tipoCliente;
-public $pais;
-public $ciudad;
-public $telefono;
-public $foto;
+class Clientes{
+    public $id;
+    public $nombre;
+    public $apellido;
+    public $tipoDocumento;
+    public $nroDocumento;
+    public $email;
+    public $tipoCliente;
+    public $pais;
+    public $ciudad;
+    public $telefono;
+    public $foto;
 
-public function __construct($nombre, $apellido, $tipoDocumento, $nroDocumento, $email, $tipoCliente, $pais, $ciudad, $telefono){
-
-}
-
-public static function CargarArray(){
-    $array=Archivos::LeerJson('hoteles.json');
-    $arrayRetorno = [];
-    if($array !== null){
-        foreach($array as $item) {
-            $cliente = new Cliente($item['nombre'], $item['apellido'], $item['tipoDocumento'], $item['nroDocumento'], $item['email'], $item['tipoCliente'], $item['pais'], $item['ciudad'], $item['telefono']);
-            $arrayRetorno[] = $cliente;}
+    public function __construct($id, $nombre, $apellido, $tipoDocumento, $nroDocumento, $email, $tipoCliente, $pais, $ciudad, $telefono){
+        $this->id=$id;
+        $this->nombre=$nombre;
+        $this->apellido=$apellido;
+        $this->tipoDocumento=$tipoDocumento;
+        $this->nroDocumento=$nroDocumento;
+        $this->email=$email;
+        $this->tipoCliente=$tipoCliente;
+        $this->pais=$pais;
+        $this->ciudad=$ciudad;
+        $this->telefono=$telefono;
     }
-    return $arrayRetorno;
+
+    //Dos Clientes son iguales si coinciden "nombre" y "tipo"
+    static function equals($cliente, $array){
+        foreach($array as $item){
+            if(($cliente->nombre === $item->nombre) && ($cliente->apellido === $item->apellido) && ($cliente->tipoCliente === $item->tipoCliente))
+                return true;
+        }
+        return false;
+    }
+
+    static function CargarArray(){
+        $array=Archivos::LeerJson('hoteles.json');
+        $arrayRetorno = [];
+        if($array !== null){
+            foreach($array as $item) {
+                $cliente = new Clientes($item['id'], $item['nombre'], $item['apellido'], $item['tipoDocumento'], $item['nroDocumento'], $item['email'], $item['tipoCliente'], $item['pais'], $item['ciudad'], $item['telefono']);
+                $arrayRetorno[] = $cliente;
+            }
+        }
+        return $arrayRetorno;
+    }
 }
 
 ?>
