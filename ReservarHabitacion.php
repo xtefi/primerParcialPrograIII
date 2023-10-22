@@ -20,7 +20,7 @@ $idCliente = $_POST['idCliente'];
 $id = Herramientas::NuevoID($arrayReservas);
 $fechaEntrada = $_POST['fechaEntrada'];
 $fechaSalida = $_POST['fechaSalida'];
-$tipoHabitacion = strtolower($_POST['tipoHabitacion']);
+$tipoHabitacion = strtolower($_POST['tipoHabitacion']);    // SIMPLE - DOBLE - SUITE
 $importe = $_POST['importe'];
 $mensaje = "Error, el cliente no existe, no se puede gestionar reserva.";
 

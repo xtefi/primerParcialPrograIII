@@ -9,8 +9,8 @@
 // /ImagenesDeReservas2023.
 
 class Reservas{
-    public $id;
     public $idCliente;
+    public $id;
     public $fechaEntrada;
     public $fechaSalida;
     public $tipoHabitacion;
@@ -19,9 +19,9 @@ class Reservas{
     public function __construct($idCliente, $id, $fechaEntrada, $fechaSalida, $tipoHabitacion, $importe){
         $this->idCliente = $idCliente;
         $this->id = $id;
-        $this->fechaEntrada = $fechaEntrada;
-        $this->fechaSalida = $fechaSalida;
-        $this->$tipoHabitacion = $tipoHabitacion;
+        $this->fechaEntrada=$fechaEntrada;
+        $this->fechaSalida=$fechaSalida;
+        $this->tipoHabitacion = $tipoHabitacion;
         $this->importe = $importe;
     }
 
