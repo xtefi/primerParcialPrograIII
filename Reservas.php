@@ -15,14 +15,18 @@ class Reservas{
     public $fechaSalida;
     public $tipoHabitacion;
     public $importe;
+    public $activa;
+    public $ajuste;
 
-    public function __construct($idCliente, $id, $fechaEntrada, $fechaSalida, $tipoHabitacion, $importe){
+    public function __construct($idCliente, $id, $fechaEntrada, $fechaSalida, $tipoHabitacion, $importe, $activa, $ajuste){
         $this->idCliente = $idCliente;
         $this->id = $id;
         $this->fechaEntrada=$fechaEntrada;
         $this->fechaSalida=$fechaSalida;
         $this->tipoHabitacion = $tipoHabitacion;
         $this->importe = $importe;
+        $this->activa = $activa;
+        $this->ajuste = $ajuste;
     }
 
     static function CargarArray(){
@@ -30,7 +34,7 @@ class Reservas{
         $arrayRetorno = [];
         if($array !== null){
             foreach($array as $item) {
-                $reserva = new Reservas($item['idCliente'], $item['id'], $item['fechaEntrada'], $item['fechaSalida'], $item['tipoHabitacion'], $item['importe']);
+                $reserva = new Reservas($item['idCliente'], $item['id'], $item['fechaEntrada'], $item['fechaSalida'], $item['tipoHabitacion'], $item['importe'], $item['activa'], $item['ajuste']);
                 $arrayRetorno[] = $reserva;
             }
         }

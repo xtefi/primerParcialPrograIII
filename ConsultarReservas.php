@@ -11,6 +11,7 @@ $fecha = strtotime($_GET['fecha']);
 $fechaDesde = strtotime($_GET['fechaDesde']);
 $fechaHasta = strtotime($_GET['fechaHasta']);
 $idCliente = $_GET['idCliente'];
+$activa = $_GET['activa'];
 $totalImporte=0;
 $totalReservas=0;
 

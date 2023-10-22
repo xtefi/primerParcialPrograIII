@@ -1,0 +1,15 @@
+[
+    {
+        "id": 10000,
+        "nombre": "Mr",
+        "apellido": "Spock",
+        "tipoDocumento": "dni",
+        "nroDocumento": "87654321",
+        "email": "spock@enterprise.com",
+        "tipoCliente": "corporativo",
+        "pais": "Vulcano",
+        "ciudad": "Shikhar",
+        "telefono": "16065002345",
+        "foto": null
+    }
+]

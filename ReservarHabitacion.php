@@ -36,7 +36,7 @@ if(isset($tipoCliente) && isset($idCliente) && isset($fechaEntrada) && isset($fe
     foreach($arrayClientes as $cliente){
         if($cliente->id == $idCliente && (strcmp($cliente->tipoCliente,$tipoCliente)==0)){
             if((strcmp($tipoHabitacion, 'simple')==0) || (strcmp($tipoHabitacion, 'doble')==0) || (strcmp($tipoHabitacion, 'suite')==0)){
-                $reserva = new Reservas($idCliente, $id, $fechaEntrada, $fechaSalida, $tipoHabitacion, $importe);
+                $reserva = new Reservas($idCliente, $id, $fechaEntrada, $fechaSalida, $tipoHabitacion, $importe, true, "No hay ajuste aplicado");
                 array_push($arrayReservas, $reserva);
                 Archivos::GuardarJson($arrayReservas, 'reservas.json');
                 $mensaje = "\nReserva registrada con éxito.";
