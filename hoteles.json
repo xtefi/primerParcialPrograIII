@@ -8,8 +8,55 @@
         "email": "spock@enterprise.com",
         "tipoCliente": "corporativo",
         "pais": "Vulcano",
-        "ciudad": "Shikhar",
-        "telefono": "16065002345",
-        "foto": null
+        "ciudad": "Shikahr",
+        "telefono": "7896541050"
+    },
+    {
+        "id": 10001,
+        "nombre": "James",
+        "apellido": "Kirk",
+        "tipoDocumento": "dni",
+        "nroDocumento": "78123456",
+        "email": "kirk@enterprise.com",
+        "tipoCliente": "corporativo",
+        "pais": "USA",
+        "ciudad": "Riverside",
+        "telefono": "0303456"
+    },
+    {
+        "id": 10002,
+        "nombre": "Hikaru",
+        "apellido": "Sulu",
+        "tipoDocumento": "dni",
+        "nroDocumento": "90123456",
+        "email": "sulu@enterprise.com",
+        "tipoCliente": "corporativo",
+        "pais": "USA",
+        "ciudad": "San Francisco",
+        "telefono": "1111111"
+    },
+    {
+        "id": 10003,
+        "nombre": "Leonard",
+        "apellido": "McCoy",
+        "tipoDocumento": "dni",
+        "nroDocumento": "88123456",
+        "email": "sulu@enterprise.com",
+        "tipoCliente": "corporativo",
+        "pais": "USA",
+        "ciudad": "Georgia",
+        "telefono": "0303456"
+    },
+    {
+        "id": 10004,
+        "nombre": "Nyota",
+        "apellido": "Uhura",
+        "tipoDocumento": "dni",
+        "nroDocumento": "72123456",
+        "email": "sulu@enterprise.com",
+        "tipoCliente": "corporativo",
+        "pais": "USA",
+        "ciudad": "New York",
+        "telefono": "14066050305"
     }
 ]

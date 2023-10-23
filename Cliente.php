@@ -24,7 +24,6 @@ class Clientes{
     public $pais;
     public $ciudad;
     public $telefono;
-    public $foto;
 
     public function __construct($id, $nombre, $apellido, $tipoDocumento, $nroDocumento, $email, $tipoCliente, $pais, $ciudad, $telefono){
         $this->id=$id;

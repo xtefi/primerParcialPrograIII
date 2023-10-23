@@ -11,53 +11,60 @@ $fecha = strtotime($_GET['fecha']);
 $fechaDesde = strtotime($_GET['fechaDesde']);
 $fechaHasta = strtotime($_GET['fechaHasta']);
 $idCliente = $_GET['idCliente'];
-$activa = $_GET['activa'];
 $totalImporte=0;
-$totalReservas=0;
 
 
 // a- El total de reservas (importe) por tipo de habitación y fecha en un día en particular
 // (se envía por parámetro), si no se pasa fecha, se muestran las del día anterior.
-if(isset($fecha) && isset($tipoHabitacion)){
+if(isset($tipoHabitacion)){
     foreach($arrayReservas as $reserva){
+        if($fecha == null || (strcmp($fecha, "") == 0) || !isset($fecha)){
+            $fecha = mktime(0, 0, 0, date("m")  , date("d")-1, date("Y"));   // ACA OBTENGO LA FECHA DE AYER
+            date('Y-m-d', $fecha);
+        }
         if((strtotime($reserva->fechaEntrada) <= $fecha) && (strtotime($reserva->fechaSalida) >= $fecha) && (strcmp($reserva->tipoHabitacion, $tipoHabitacion) == 0)){
-            $totalImporte+=$reserva->importe;
-            $totalReservas++;             
+            $totalImporte+=$reserva->importe;          
         }
     }
-    echo "Total de reservas en la fecha indicada para ese tipo de habitación: " . $totalReservas . " - Importe: " . $totalImporte;
+    echo "Total de reservas en la fecha " . date('y-m-d', $fecha) . " para habitacines tipo " . $tipoHabitacion . "\n" . " - Importe: " . $totalImporte;
 }
 
-// b- El listado de reservas para un cliente en particular. 
+//////////////////////////B////////////////////////////////////////// 
+echo "\n\n b- Listado de reservas para un cliente en particular.";
 if(isset($idCliente)){
     foreach($arrayReservas as $reserva){
-        if($idCliente === $reserva->idCliente){
+        if($idCliente == $reserva->idCliente){
             echo "\nReservas del cliente " . $reserva->idCliente . "\nid: " . $reserva->id . " - fecha de entrada: " . $reserva->fechaEntrada . " - fecha salida: " . $reserva->fechaSalida . " - tipo de habitación: " . $reserva->tipoHabitacion . " - importe: " . $reserva->importe;
         }
     }
 }
 
-// c- El listado de reservas entre dos fechas ordenado por fecha.
-$arrayOrdenadoPorFecha=[];
-if(isset($fechaDesde) && isset($fechaHasta)){
+///////////////////////////C//////////////////////////////////////////
+echo "\n\n c- Listado de reservas entre dos fechas ordenado por fecha.";
+// creo un subarray que cumpla con las fechas ingresadas
+$subArrayReservas=[];
+if(isset($fechaDesde) && isset($fechaHasta) && $fechaDesde <= $fechaHasta){
     foreach($arrayReservas as $reserva){    
-        if((strtotime($reserva->fechaEntrada) <= $fechaDesde)){
-            array_push($arrayOrdenadoPorFecha, $reserva);
+        if((strtotime($reserva->fechaEntrada) >= $fechaDesde) && (strtotime($reserva->fechaSalida) <= $fechaHasta)){
+            array_push($subArrayReservas, $reserva);
         }    
-    } //&& (strtotime($reserva->fechaSalida) >= $fechaHasta)
+    } 
 }
-if(count($arrayOrdenadoPorFecha)>0){
-    asort($arrayOrdenadoPorFecha);
-    foreach($arrayOrdenadoPorFecha as $reserva){
-        echo "\nid: " . $reserva->id . " - fecha de entrada: " . $reserva->fechaEntrada . " - fecha salida: " . $reserva->fechaSalida . " - tipo de habitación: " . $reserva->tipoHabitacion . " - importe: " . $reserva->importe;            
-    }
+// Creo una funcion para comparar por fecha y la aplico en "usort"
+function compararPorFechaEntrada($a, $b) {
+    return strtotime($a->fechaEntrada) - strtotime($b->fechaEntrada);
+}
+usort($subArrayReservas, 'compararPorFechaEntrada');
+foreach ($subArrayReservas as $reserva) {
+    echo "\nID: " . $reserva->id . ", Fecha de Entrada: " . $reserva->fechaEntrada . ", tipo de habitacion: " . $reserva->tipoHabitacion ;
 }
 
-// d- El listado de reservas por tipo de habitación.
+////////////////////////////D///////////////////////////////////////
+echo "\n\nd- Listado de reservas por tipo de habitación.";
 if(isset($tipoHabitacion)){
     foreach($arrayReservas as $reserva){
         if((strcmp($reserva->tipoHabitacion, $tipoHabitacion) == 0)){
-            echo "\n\nReserva habitación tipo: " . $reserva->tipoHabitacion ." - id: " . $reserva->id . " - fecha de entrada: " . $reserva->fechaEntrada . " - fecha salida: " . $reserva->fechaSalida . " - importe: " . $reserva->importe;            
+            echo "\nReserva habitación tipo: " . $reserva->tipoHabitacion ." - id: " . $reserva->id . " - fecha de entrada: " . $reserva->fechaEntrada . " - fecha salida: " . $reserva->fechaSalida . " - importe: " . $reserva->importe;            
         }
     }
 }

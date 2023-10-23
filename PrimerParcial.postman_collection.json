@@ -1,0 +1,364 @@
+{
+	"info": {
+		"_postman_id": "21ba53e7-8e21-4a8b-828a-46030f8d881a",
+		"name": "PrimerParcial",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20948505"
+	},
+	"item": [
+		{
+			"name": "Alta cliente",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "nombre",
+							"value": "Nyota",
+							"type": "text"
+						},
+						{
+							"key": "apellido",
+							"value": "Uhura",
+							"type": "text"
+						},
+						{
+							"key": "tipoDocumento",
+							"value": "dni",
+							"type": "text"
+						},
+						{
+							"key": "nroDocumento",
+							"value": "72123456",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "sulu@enterprise.com",
+							"type": "text"
+						},
+						{
+							"key": "tipoCliente",
+							"value": "Corporativo",
+							"type": "text"
+						},
+						{
+							"key": "pais",
+							"value": "USA",
+							"type": "text"
+						},
+						{
+							"key": "ciudad",
+							"value": "New York",
+							"type": "text"
+						},
+						{
+							"key": "telefono",
+							"value": "14066050305",
+							"type": "text"
+						},
+						{
+							"key": "fotoCliente",
+							"type": "file",
+							"src": "/C:/Users/54113/Desktop/Nichelle_Nichols,_NASA_Recruiter_-_GPN-2004-00017.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/primerParcialPrograIII/index.php?op=ClienteAlta",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"primerParcialPrograIII",
+						"index.php"
+					],
+					"query": [
+						{
+							"key": "op",
+							"value": "ClienteAlta"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar cliente",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "id",
+							"value": "10008",
+							"type": "text"
+						},
+						{
+							"key": "tipoCliente",
+							"value": "corporative",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/primerParcialPrograIII/index.php?op=ConsultarCliente",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"primerParcialPrograIII",
+						"index.php"
+					],
+					"query": [
+						{
+							"key": "op",
+							"value": "ConsultarCliente"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ReservarHabitacion",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "tipoCliente",
+							"value": "corporativo",
+							"type": "text"
+						},
+						{
+							"key": "fechaEntrada",
+							"value": "2022-10-20",
+							"type": "text"
+						},
+						{
+							"key": "fechaSalida",
+							"value": "2022-10-23",
+							"type": "text"
+						},
+						{
+							"key": "tipoHabitacion",
+							"value": "suite",
+							"type": "text"
+						},
+						{
+							"key": "importe",
+							"value": "130",
+							"type": "text"
+						},
+						{
+							"key": "fotoReserva",
+							"type": "file",
+							"src": "/C:/Users/54113/Desktop/confirmacionReserva.jpeg"
+						},
+						{
+							"key": "idCliente",
+							"value": "10000",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/primerParcialPrograIII/index.php?op=ReservarHabitacion",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"primerParcialPrograIII",
+						"index.php"
+					],
+					"query": [
+						{
+							"key": "op",
+							"value": "ReservarHabitacion"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar Reserva",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/primerParcialPrograIII/index.php?idCliente=10000&fecha=&tipoHabitacion=suite&fechaDesde=2019-01-01&fechaHasta=2022-10-23&op=ConsultarReserva",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"primerParcialPrograIII",
+						"index.php"
+					],
+					"query": [
+						{
+							"key": "idCliente",
+							"value": "10000"
+						},
+						{
+							"key": "fecha",
+							"value": ""
+						},
+						{
+							"key": "tipoHabitacion",
+							"value": "suite"
+						},
+						{
+							"key": "fechaDesde",
+							"value": "2019-01-01"
+						},
+						{
+							"key": "fechaHasta",
+							"value": "2022-10-23"
+						},
+						{
+							"key": "op",
+							"value": "ConsultarReserva"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modificar cliente",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 10002,\r\n    \"nombre\": \"Hikaru\",\r\n    \"apellido\": \"Sulu\",\r\n    \"tipoDocumento\": \"dni\",\r\n    \"nroDocumento\": \"90123456\",\r\n    \"email\": \"sulu@enterprise.com\",\r\n    \"tipoCliente\": \"corporativo\",\r\n    \"pais\": \"USA\",\r\n    \"ciudad\": \"San Francisco\",\r\n    \"telefono\": \"1111111\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/primerParcialPrograIII/index.php?op=ModificarCliente",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"primerParcialPrograIII",
+						"index.php"
+					],
+					"query": [
+						{
+							"key": "op",
+							"value": "ModificarCliente"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cancelar reserva",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "tipoCliente",
+							"value": "corporativo",
+							"type": "text"
+						},
+						{
+							"key": "idCliente",
+							"value": "10000",
+							"type": "text"
+						},
+						{
+							"key": "idReserva",
+							"value": "10001",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/primerParcialPrograIII/index.php?op=CancelarReserva",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"primerParcialPrograIII",
+						"index.php"
+					],
+					"query": [
+						{
+							"key": "op",
+							"value": "CancelarReserva"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AjusteReserva",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "idReserva",
+							"value": "10000",
+							"type": "text"
+						},
+						{
+							"key": "nuevoImporte",
+							"value": "75",
+							"type": "text"
+						},
+						{
+							"key": "motivo",
+							"value": "Se aplica ajuste por cobro mal realizado",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/primerParcialPrograIII/index.php?op=AjusteReserva",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"primerParcialPrograIII",
+						"index.php"
+					],
+					"query": [
+						{
+							"key": "op",
+							"value": "AjusteReserva"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
