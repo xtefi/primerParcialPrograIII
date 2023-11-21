@@ -24,8 +24,10 @@ class Clientes{
     public $pais;
     public $ciudad;
     public $telefono;
+    public $modoPago;
+    public $activo;
 
-    public function __construct($id, $nombre, $apellido, $tipoDocumento, $nroDocumento, $email, $tipoCliente, $pais, $ciudad, $telefono){
+    public function __construct($id, $nombre, $apellido, $tipoDocumento, $nroDocumento, $email, $tipoCliente, $pais, $ciudad, $telefono, $modoPago, $activo){
         $this->id=$id;
         $this->nombre=$nombre;
         $this->apellido=$apellido;
@@ -36,12 +38,22 @@ class Clientes{
         $this->pais=$pais;
         $this->ciudad=$ciudad;
         $this->telefono=$telefono;
+        if($modoPago == "" || $modoPago == null){
+            $this->modoPago = "Efectivo";
+        }else{
+            $this->modoPago = $modoPago;
+        }
+        if($activo == null){
+            $this->activo = true;
+        }else{
+            $this->activo = $activo;
+        }
     }
 
-    //Dos Clientes son iguales si coinciden "nombre" y "tipo"
+    //Dos Clientes son iguales si coinciden "dni", "nombre" y "tipo"
     static function equals($cliente, $array){
         foreach($array as $item){
-            if(($cliente->nombre === $item->nombre) && ($cliente->apellido === $item->apellido) && ($cliente->tipoCliente === $item->tipoCliente))
+            if(($cliente->nroDocumento == $item->nroDocumento) && ($cliente->nombre === $item->nombre) && ($cliente->apellido === $item->apellido) && ($cliente->tipoCliente === $item->tipoCliente))
                 return true;
         }
         return false;
@@ -52,7 +64,7 @@ class Clientes{
         $arrayRetorno = [];
         if($array !== null){
             foreach($array as $item) {
-                $cliente = new Clientes($item['id'], $item['nombre'], $item['apellido'], $item['tipoDocumento'], $item['nroDocumento'], $item['email'], $item['tipoCliente'], $item['pais'], $item['ciudad'], $item['telefono']);
+                $cliente = new Clientes($item['id'], $item['nombre'], $item['apellido'], $item['tipoDocumento'], $item['nroDocumento'], $item['email'], $item['tipoCliente'], $item['pais'], $item['ciudad'], $item['telefono'], $item['modoPago'], $item['activo']);
                 $arrayRetorno[] = $cliente;
             }
         }

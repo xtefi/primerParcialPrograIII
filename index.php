@@ -36,6 +36,15 @@ switch ($_SERVER['REQUEST_METHOD']){
                 break;
 
         }
+        break;
+    case 'DELETE':
+        switch($_GET['op']){
+            case 'ModificarCliente':
+                include "BorrarCliente.php";
+                break;
+
+        }
+        break;
 }
 
 

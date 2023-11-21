@@ -15,25 +15,29 @@ include_once "Herramientas.php";
 $arrayClientes=Clientes::CargarArray();
 $nombre = $_POST['nombre'];
 $apellido = $_POST['apellido'];
-$tipoDocumento = $_POST['tipoDocumento'];
+$tipoDocumento = strtoupper($_POST['tipoDocumento']); // DNI - LE - LC - PASAPORTE
 $nroDocumento = $_POST['nroDocumento'];
 $email = $_POST['email'];
-$tipoCliente = strtolower($_POST['tipoCliente']);  // INDIVIDUAL - CORPORATIVO
+$tipoCliente = strtoupper($_POST['tipoCliente']);  // INDI - CORPO
 $pais = $_POST['pais'];
 $ciudad = $_POST['ciudad'];
 $telefono = $_POST['telefono'];
+$modoPago = $_POST['modoPago'];
+$activo = strtoupper($_POST['activo']);
+$tipoDeCliente = $tipoCliente . "-" . $tipoDocumento;
 
 $fotoCliente = $_FILES['fotoCliente']['tmp_name'];
 $carpetaFoto = 'C:/Users/54113/Desktop/ImagenesDeClientes/2023/';
-$nombreFoto = $nroDocumento . $tipoCliente;
+$nombreFoto = $nroDocumento . $tipoDeCliente;
 $extensionFoto = $_FILES['fotoCliente']['type'];
 $tamanoFoto = $_FILES['fotoCliente']['size'];
 $ruta_destino = $carpetaFoto . $nombreFoto . ".jpg";
 
 try{
     if(isset($nombre) && isset($apellido) && isset($tipoDocumento) && isset($nroDocumento) && isset($email) && isset($tipoCliente) && isset($pais) && isset($ciudad) && isset($telefono)){
-        if(strcmp($tipoCliente, "individual") == 0 || strcmp($tipoCliente,"corporativo") == 0){  // SI EL TIPO COINCIDE CON LOS DOS POSIBLES CASOS
-            $nuevoCliente = new Clientes(Herramientas::NuevoID($arrayClientes), $nombre, $apellido, $tipoDocumento, $nroDocumento, $email, $tipoCliente, $pais, $ciudad, $telefono);
+        if( (strcmp($tipoCliente, "INDI") == 0 || strcmp($tipoCliente,"CORPO") == 0) && (strcmp($tipoDocumento, "DNI") == 0 || strcmp($tipoDocumento, "LE") == 0 || strcmp($tipoDocumento, "LC") == 0 || strcmp($tipoDocumento, "PASAPORTE") == 0)){  // SI EL TIPO COINCIDE CON LOS DOS POSIBLES CASOS
+            $tipoDeCliente = $tipoCliente . "-" . $tipoDocumento;
+            $nuevoCliente = new Clientes(Herramientas::NuevoID($arrayClientes), $nombre, $apellido, $tipoDocumento, $nroDocumento, $email, $tipoDeCliente, $pais, $ciudad, $telefono, $modoPago, $activo);
             if(Clientes::equals($nuevoCliente, $arrayClientes)){
                 echo "El cliente ya existe.";                      
             }else{
@@ -41,6 +45,8 @@ try{
                 Archivos::GuardarJson($arrayClientes, "hoteles.json");
                 echo "Cliente guardado";                
             }
+        }else{
+            echo "Tipo de cliente o tipo de DNI mal ingresados, favor revise.";
         }
     }else{
         echo "Faltan datos";

@@ -15,7 +15,6 @@ class Herramientas{
             return $idMaximo=10000;
         }
     }
-
     
 }
 
