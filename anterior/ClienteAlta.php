@@ -24,7 +24,7 @@ $ciudad = $_POST['ciudad'];
 $telefono = $_POST['telefono'];
 $modoPago = $_POST['modoPago'];
 $activo = strtoupper($_POST['activo']);
-$tipoDeCliente = $tipoCliente . "-" . $tipoDocumento;
+$tipoDeCliente = $tipoCliente . "-" . $tipoDocumento;      
 
 $fotoCliente = $_FILES['fotoCliente']['tmp_name'];
 $carpetaFoto = 'C:/Users/54113/Desktop/ImagenesDeClientes/2023/';
