@@ -16,6 +16,18 @@ class ReservaController extends Reserva implements IApiUsable
         $activa = $param['activa'];
         $ajuste = $param['ajuste'];
 
+        //foto
+        
+        $fotoReserva = $_FILES['fotoReserva']['tmp_name'];
+        $carpetaFoto = 'C:/Users/54113/Desktop/ImagenesDeReservas2023/';
+        $nombreFoto = $tipoCliente . "-" . $idCliente . "-" ;
+        $extensionFoto = $_FILES['fotoReserva']['type'];
+        $tamanoFoto = $_FILES['fotoReserva']['size'];
+        $ruta_destino = $carpetaFoto . $nombreFoto . ".jpg";
+        if(isset($fotoReserva)) {
+          Reserva::guardarFoto($extensionFoto, $tamanoFoto, true, $carpetaFoto, $fotoReserva, $ruta_destino);
+        }
+
         // Creamos la reserva
         $rsv = new Reserva();
         $rsv->tipoCliente = $tipoCliente;
@@ -27,6 +39,8 @@ class ReservaController extends Reserva implements IApiUsable
         $rsv->activa = $activa;
         $rsv->ajuste = $ajuste;
         $rsv->crearReserva();
+
+
 
         $payload = json_encode(array("mensaje" => "Reserva registrado con éxito"));
 
@@ -96,6 +110,8 @@ class ReservaController extends Reserva implements IApiUsable
       $param = $request->getQueryParams();
       $tipoHabitacion = $param['tipoHabitacion'];
       $tipoCliente = $param['tipoCliente'];
+      $fechaDesde = $param['fechaDesde'];
+      $fechaHasta = $param['fechaHasta'];
 
       if(isset($tipoHabitacion)){
         
@@ -114,6 +130,15 @@ class ReservaController extends Reserva implements IApiUsable
         $response->getBody()->write($payload);
         return $response
           ->withHeader('Content-Type', 'application/json');
+          /////////////////////////////////
+          ///////////////////////////////////
+          //////////CON FECHAS //////////////////
+      }else if(isset($fechaDesde) && isset($fechaHasta)){
+        $lista = Reserva::listadoFechaDesdeHasta($fechaDesde, $fechaHasta);
+        $payload = json_encode(array("lista de reservas" => $lista));
+        $response->getBody()->write($payload);
+        return $response
+          ->withHeader('Content-Type', 'application/json');
       }
       else{
         $lista = Reserva::listadoPorCliente($idCliente);
@@ -127,10 +152,6 @@ class ReservaController extends Reserva implements IApiUsable
 
     public function filtroConFechas($request, $response, $args)
     {
-//       $param = $request->getQueryParams();
-//       $tipoHabitacion = $param['tipoHabitacion'];
-//       $fechaDesde = $param['fechaDesde'];
-//       $fechaHasta = $param['fechaHasta'];
 
 
     }

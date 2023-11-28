@@ -13,9 +13,10 @@ use Slim\Routing\RouteContext;
 require __DIR__ . '/../vendor/autoload.php';
 
 require_once './db/AccesoDatos.php';
-//require_once './middlewares/permisosMiddleware.php';
 require_once './controllers/ClienteController.php';
 require_once './controllers/ReservaController.php';
+require_once './controllers/UsuarioController.php';
+require_once './middlewares/permisosController.php';
 
 
 
@@ -37,11 +38,10 @@ $app->addBodyParsingMiddleware();
 $app->group('/clientes', function (RouteCollectorProxy $group) {
     $group->get('[/]', \ClienteController::class . ':TraerTodos');
     $group->get('/{id}', \ClienteController::class . ':TraerUno');
-    $group->post('[/]', \ClienteController::class . ':CargarUno');
+    $group->post('[/]', \ClienteController::class . ':CargarUno')->add(\permisosMiddleware::class . ':verificarRolGerente');
     $group->post('/{id}', \ClienteController::class . ':ModificarUno');
-    $group->delete('/{id}', \ClienteController::class . ':BorrarUno');
-  });//->add(\permisosMiddleware::class . ':verificarRolSocio'); // solo el rol socio puede RWE en usuarios
-
+    $group->delete('/{id}', \ClienteController::class . ':BorrarUno')->add(\permisosMiddleware::class . ':verificarRolGerente');
+  });
 $app->group('/reservas', function (RouteCollectorProxy $group) {
     $group->get('[/]', \ReservaController::class . ':TraerTodos');
     $group->get('/{id}', \ReservaController::class . ':TraerUno');
@@ -49,6 +49,11 @@ $app->group('/reservas', function (RouteCollectorProxy $group) {
     $group->post('/{id}', \ReservaController::class . ':ModificarUno');
     $group->put('/{idCliente}', \ReservaController::class . ':reservasPorIdCliente');
     $group->delete('/{id}', \ReservaController::class . ':BorrarUno');
+})->add(\permisosMiddleware::class . ':verificarRolRecepcionistaYCliente');
+
+$app->group('/usuarios', function (RouteCollectorProxy $group) {
+    $group->get('[/]', \UsuarioController::class . ':TraerTodos');
+    $group->post('[/]', \UsuarioController::class . ':CargarUno');
 });
 
 

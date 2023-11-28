@@ -84,12 +84,16 @@ class Reserva{
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Reserva');
     }
 
+    ////////////////////////
+    ////// GET RESERVAS CON FECHA QUE NO ANDA
+    
     public static function listadoFechaDesdeHasta($fechaDesde, $fechaHasta){
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $query="SELECT * FROM reservas WHERE cast(fechaEntrada as date) BETWEEN '2023-01-01' AND '2024-01-01'";
+        //$query="SELECT * FROM reservas WHERE cast(fechaEntrada as date) BETWEEN '2023-01-01' AND '2024-01-01'";
+        $query="SELECT * FROM reservas WHERE cast(fechaEntrada as date) BETWEEN :fechaDesde AND :fechaHasta";
         $consulta = $objAccesoDatos->prepararConsulta($query);
-        // $consulta->bindValue(':fechaDesde', $fechaDesde, PDO::PARAM_STR);
-        // $consulta->bindValue(':fechaHasta', $fechaHasta, PDO::PARAM_STR);
+        $consulta->bindValue(':fechaDesde', $fechaDesde, PDO::PARAM_STR);
+        $consulta->bindValue(':fechaHasta', $fechaHasta, PDO::PARAM_STR);
         $consulta->execute();
 
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Reserva');
@@ -104,7 +108,7 @@ class Reserva{
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Reserva');
     }
 
-    public static function listadoCancelacionesCliente($tipoCliente){
+    public static function listadoCancelacionesTipoCliente($tipoCliente){
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("SELECT id, tipoCliente, idCliente, fechaEntrada, fechaSalida, tipoHabitacion, importe, activa, ajuste FROM reservas WHERE activa = false AND tipoCliente = :tipoCliente");
         $consulta->bindValue(':tipoCliente', $tipoCliente, PDO::PARAM_STR);
@@ -113,6 +117,24 @@ class Reserva{
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Reserva');
     }
 
+    public static function guardarFoto($extensionFoto, $tamanoFoto, $controlAlta, $carpetaFoto, $fotoReserva, $ruta_destino)
+    {
+                // Validaciones de la foto - Valida tipo archivo - tamaño - directorio: si no existe lo crea
+        if (!((strpos($extensionFoto, "png") || strpos($extensionFoto, "jpeg")) && ($tamanoFoto < 10000000))) {
+            echo "La extensión o el tamaño de los archivos no es correcta.";
+        }else if($controlAlta === false){
+            // si no se da el alta, no se carga la foto
+        }else{
+            if(!is_dir($carpetaFoto)){
+                mkdir($carpetaFoto, 0777, true);
+            }
+            if (move_uploaded_file($fotoReserva,  $ruta_destino)){
+                echo "\nLa foto del cliente ha sido cargada correctamente.";
+            }else{
+                echo "Ocurrió algún error al cargar la foto.";
+            }
+        }
+    }
 
 }
 

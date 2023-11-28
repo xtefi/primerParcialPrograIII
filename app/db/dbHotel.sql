@@ -27,3 +27,17 @@ CREATE TABLE clientes (
     `modoPago` VARCHAR(50),
     `activo` bool
 );
+
+CREATE TABLE usuarios (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `usuario` VARCHAR(50),
+    `email` VARCHAR(50),
+    `pass` VARCHAR(50),
+    `rol` VARCHAR(50)
+);
+
+INSERT INTO usuarios (usuario, email, pass, rol)
+VALUES
+    ('PEPITO-ADMIN', 'pepito-a@hilton.com', 'admin', 'GERENTE'),
+    ('PEPITO-RECEPCION', 'pepito-r@hilton.com', 'admin', 'RECEPCIONISTA'),
+    ('PEPITO-CLIENTE', 'pepito-chilton.com', 'admin', 'CLIENTE');

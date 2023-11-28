@@ -101,7 +101,7 @@
     },
     {
         "idCliente": "10005",
-        "id": 10010,
+        "tipoCliente": "",
         "fechaEntrada": "2023-12-20",
         "fechaSalida": "2023-12-31",
         "tipoHabitacion": "simple",
