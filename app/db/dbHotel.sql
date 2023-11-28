@@ -1,9 +1,9 @@
 CREATE TABLE reservas (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `tipoCliente` VARCHAR(50),
-    `idCliente` VARCHAR(50),
-    `fechaEntrada` VARCHAR(50),
-    `fechaSalida` VARCHAR(50),
+    `idCliente` INT,
+    `fechaEntrada` DATE,
+    `fechaSalida` DATE,
     `tipoHabitacion` VARCHAR(50),
     `importe` INT,
     `activa` bool,

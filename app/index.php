@@ -47,8 +47,11 @@ $app->group('/reservas', function (RouteCollectorProxy $group) {
     $group->get('/{id}', \ReservaController::class . ':TraerUno');
     $group->post('[/]', \ReservaController::class . ':CargarUno');
     $group->post('/{id}', \ReservaController::class . ':ModificarUno');
+    $group->put('/{idCliente}', \ReservaController::class . ':reservasPorIdCliente');
     $group->delete('/{id}', \ReservaController::class . ':BorrarUno');
 });
+
+
 
 $app->get('[/]', function (Request $request, Response $response) {    
     $payload = json_encode(array("mensaje" => "Slim Framework 4 PHP"));

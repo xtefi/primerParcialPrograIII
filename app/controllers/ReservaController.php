@@ -89,4 +89,49 @@ class ReservaController extends Reserva implements IApiUsable
       return $response
         ->withHeader('Content-Type', 'application/json');
     }
+
+    public function reservasPorIdCliente($request, $response, $args)
+    {
+      $idCliente = $args['idCliente'];
+      $param = $request->getQueryParams();
+      $tipoHabitacion = $param['tipoHabitacion'];
+      $tipoCliente = $param['tipoCliente'];
+
+      if(isset($tipoHabitacion)){
+        
+        $lista = Reserva::listadoTipoHabitacion($tipoHabitacion);
+
+        $payload = json_encode(array("lista de reservas" => $lista));
+  
+        $response->getBody()->write($payload);
+        return $response
+          ->withHeader('Content-Type', 'application/json');
+      }else if(isset($tipoCliente)){
+        $lista = Reserva::listadoCancelacionesTipoCliente($tipoCliente);
+
+        $payload = json_encode(array("lista de reservas" => $lista));
+  
+        $response->getBody()->write($payload);
+        return $response
+          ->withHeader('Content-Type', 'application/json');
+      }
+      else{
+        $lista = Reserva::listadoPorCliente($idCliente);
+        $payload = json_encode(array("lista de reservas" => $lista));
+        $response->getBody()->write($payload);
+        return $response
+          ->withHeader('Content-Type', 'application/json');
+      }
+
+    }
+
+    public function filtroConFechas($request, $response, $args)
+    {
+//       $param = $request->getQueryParams();
+//       $tipoHabitacion = $param['tipoHabitacion'];
+//       $fechaDesde = $param['fechaDesde'];
+//       $fechaHasta = $param['fechaHasta'];
+
+
+    }
 }

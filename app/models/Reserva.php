@@ -14,7 +14,7 @@ class Reserva{
     public $idCliente;
     public $fechaEntrada;
     public $fechaSalida;
-    public $tipoHabitacion;
+    public $tipoHabitacion; // SIMPLE - DOBLE - SUITE
     public $importe;
     public $activa;
     public $ajuste;
@@ -57,7 +57,7 @@ class Reserva{
     public static function modificarReserva($id, $ajuste, $nuevoMonto) 
     {
         $objAccesoDato = AccesoDatos::obtenerInstancia();
-        $query="UPDATE reservas SET ajuste = ?, nuevoMonto = ? WHERE id = ?";
+        $query="UPDATE reservas SET ajuste = ?, importe = ? WHERE id = ?";
         $consulta = $objAccesoDato->prepararConsulta($query);
         $consulta->bindParam(1, $ajuste);
         $consulta->bindParam(2, $nuevoMonto);
@@ -73,6 +73,44 @@ class Reserva{
         $consulta->bindValue(':tipoCliente', $tipoCliente, PDO::PARAM_STR);
         $consulta->bindValue(':idCliente', $idCliente, PDO::PARAM_STR);
         $consulta->execute();
+    }
+
+    public static function listadoPorCliente($idCliente){
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT id, tipoCliente, idCliente, fechaEntrada, fechaSalida, tipoHabitacion, importe, activa, ajuste FROM reservas WHERE idCliente = :idCliente");
+        $consulta->bindValue(':idCliente', $idCliente, PDO::PARAM_STR);
+        $consulta->execute();
+
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Reserva');
+    }
+
+    public static function listadoFechaDesdeHasta($fechaDesde, $fechaHasta){
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $query="SELECT * FROM reservas WHERE cast(fechaEntrada as date) BETWEEN '2023-01-01' AND '2024-01-01'";
+        $consulta = $objAccesoDatos->prepararConsulta($query);
+        // $consulta->bindValue(':fechaDesde', $fechaDesde, PDO::PARAM_STR);
+        // $consulta->bindValue(':fechaHasta', $fechaHasta, PDO::PARAM_STR);
+        $consulta->execute();
+
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Reserva');
+    }
+
+    public static function listadoTipoHabitacion($tipoHabitacion){
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT id, tipoCliente, idCliente, fechaEntrada, fechaSalida, tipoHabitacion, importe, activa, ajuste FROM reservas WHERE tipoHabitacion = :tipoHabitacion");
+        $consulta->bindValue(':tipoHabitacion', $tipoHabitacion, PDO::PARAM_STR);
+        $consulta->execute();
+
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Reserva');
+    }
+
+    public static function listadoCancelacionesCliente($tipoCliente){
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT id, tipoCliente, idCliente, fechaEntrada, fechaSalida, tipoHabitacion, importe, activa, ajuste FROM reservas WHERE activa = false AND tipoCliente = :tipoCliente");
+        $consulta->bindValue(':tipoCliente', $tipoCliente, PDO::PARAM_STR);
+        $consulta->execute();
+
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Reserva');
     }
 
 
