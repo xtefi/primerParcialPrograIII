@@ -39,9 +39,11 @@ $app->group('/clientes', function (RouteCollectorProxy $group) {
     $group->get('[/]', \ClienteController::class . ':TraerTodos');
     $group->get('/{id}', \ClienteController::class . ':TraerUno');
     $group->post('[/]', \ClienteController::class . ':CargarUno')->add(\permisosMiddleware::class . ':verificarRolGerente');
-    $group->post('/{id}', \ClienteController::class . ':ModificarUno');
+    $group->put('/{id}', \ClienteController::class . ':ModificarUno');
     $group->delete('/{id}', \ClienteController::class . ':BorrarUno')->add(\permisosMiddleware::class . ':verificarRolGerente');
-  });
+  })
+  ->add(\logsMiddleware::class . ':LogOperacion');
+  
 $app->group('/reservas', function (RouteCollectorProxy $group) {
     $group->get('[/]', \ReservaController::class . ':TraerTodos');
     $group->get('/{id}', \ReservaController::class . ':TraerUno');

@@ -13,8 +13,8 @@ CREATE TABLE reservas (
 
 
 
-CREATE TABLE clientes (
-    `id` INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE hoteles (
+    `id` INT(6) ZEROFILL AUTO_INCREMENT PRIMARY KEY,
     `nombre` VARCHAR(50),
     `apellido` VARCHAR(50),
     `tipoDocumento` VARCHAR(50),
@@ -27,6 +27,10 @@ CREATE TABLE clientes (
     `modoPago` VARCHAR(50),
     `activo` bool
 );
+
+INSERT INTO hoteles (nombre, apellido, tipoDocumento, nroDocumento, email, tipoCliente, pais, ciudad, telefono, modoPago, activo)
+VALUES
+    ('Hikaru', 'Sulu', 'DNI', '40111222', 'sulu@enterprise.com', 'CORPO', 'USA', 'New York', '14067051122', 'EFECTIVO', TRUE);
 
 CREATE TABLE usuarios (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -41,3 +45,17 @@ VALUES
     ('PEPITO-ADMIN', 'pepito-a@hilton.com', 'admin', 'GERENTE'),
     ('PEPITO-RECEPCION', 'pepito-r@hilton.com', 'admin', 'RECEPCIONISTA'),
     ('PEPITO-CLIENTE', 'pepito-chilton.com', 'admin', 'CLIENTE');
+
+
+CREATE TABLE logs (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `id_usuario` INT,
+    `usuario` VARCHAR(50),
+    `rol` VARCHAR(50),
+    `entidad` VARCHAR(50),
+    `operacion` VARCHAR(50),
+    `id_entidad` INT,
+    `datos_operacion` VARCHAR(50),
+    `datos_resultado_operacion` VARCHAR(50),
+    `fecha_hora` VARCHAR(50)
+);

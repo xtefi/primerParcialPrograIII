@@ -17,28 +17,31 @@ class ClienteController extends Cliente implements IApiUsable
         $ciudad = $param['ciudad'];
         $telefono = $param['telefono'];
         $modoPago = $param['modoPago'];
-        $activo = $param['activo'];
 
         // Creamos el cliente
         $clte = new Cliente();
-        $clte->nombre = $nombre;
-        $clte->apellido = $apellido;
-        $clte->tipoDocumento = $tipoDocumento;
+        $clte->nombre = strtoupper($nombre);
+        $clte->apellido = strtoupper($apellido);
+        $clte->tipoDocumento = strtoupper($tipoDocumento);
         $clte->nroDocumento = $nroDocumento;
         $clte->email = $email;
-        $clte->tipoCliente = $tipoCliente;
+        if(strcmp(strtoupper($tipoCliente), "CORPORATIVO")){
+          $clte->tipoCliente = "CORPO-" . $tipoDocumento;
+        }elseif (strcmp(strtoupper($tipoCliente), "INDIVIDUAL")) {
+          $clte->tipoCliente = "INDI-" . $tipoDocumento;
+        }
         $clte->pais = $pais;
         $clte->ciudad = $ciudad;
         $clte->telefono = $telefono;
         $clte->modoPago = $modoPago;
-        $clte->activo = $activo;
+        $clte->activo = true;
         $clte->crearCliente();
 
         $payload = json_encode(array("mensaje" => "Cliente registrado con éxito"));
 
         $response->getBody()->write($payload);
         return $response
-          ->withHeader('Content-Type', 'application/json');
+          ->withHeader('Content-Type', 'application/json')->withStatus(201);
     }
 
     public function TraerUno($request, $response, $args)
@@ -51,7 +54,7 @@ class ClienteController extends Cliente implements IApiUsable
 
         $response->getBody()->write($payload);
         return $response
-          ->withHeader('Content-Type', 'application/json');
+          ->withHeader('Content-Type', 'application/json')->withStatus(200);
     }
 
     public function TraerTodos($request, $response, $args)
@@ -61,7 +64,7 @@ class ClienteController extends Cliente implements IApiUsable
 
         $response->getBody()->write($payload);
         return $response
-          ->withHeader('Content-Type', 'application/json');
+          ->withHeader('Content-Type', 'application/json')->withStatus(200);
     }
     
     public function ModificarUno($request, $response, $args)
@@ -87,7 +90,7 @@ class ClienteController extends Cliente implements IApiUsable
 
         $response->getBody()->write($payload);
         return $response
-          ->withHeader('Content-Type', 'application/json');
+          ->withHeader('Content-Type', 'application/json')->withStatus(200);
     }
 
     public function BorrarUno($request, $response, $args)
@@ -103,6 +106,6 @@ class ClienteController extends Cliente implements IApiUsable
 
         $response->getBody()->write($payload);
         return $response
-          ->withHeader('Content-Type', 'application/json');
+          ->withHeader('Content-Type', 'application/json')->withStatus(200);
     }
 }

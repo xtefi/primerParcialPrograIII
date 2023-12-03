@@ -36,8 +36,8 @@ class ReservaController extends Reserva implements IApiUsable
         $rsv->fechaSalida = $fechaSalida;
         $rsv->tipoHabitacion = $tipoHabitacion;
         $rsv->importe = $importe;
-        $rsv->activa = $activa;
-        $rsv->ajuste = $ajuste;
+        $rsv->activa = true;
+        $rsv->ajuste = "";
         $rsv->crearReserva();
 
 
