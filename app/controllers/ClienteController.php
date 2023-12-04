@@ -46,7 +46,7 @@ class ClienteController extends Cliente implements IApiUsable
 
             $response->getBody()->write($payload);
             return $response
-              ->withHeader('Content-Type', 'application/json')->withStatus(201);
+              ->withHeader('Content-Type', 'application/json');
           }
         }
 
@@ -62,7 +62,7 @@ class ClienteController extends Cliente implements IApiUsable
 
         $response->getBody()->write($payload);
         return $response
-          ->withHeader('Content-Type', 'application/json')->withStatus(200);
+          ->withHeader('Content-Type', 'application/json');
     }
 
     public function TraerTodos($request, $response, $args)
@@ -72,7 +72,7 @@ class ClienteController extends Cliente implements IApiUsable
 
         $response->getBody()->write($payload);
         return $response
-          ->withHeader('Content-Type', 'application/json')->withStatus(200);
+          ->withHeader('Content-Type', 'application/json');
     }
     
     public function ModificarUno($request, $response, $args)
@@ -98,7 +98,7 @@ class ClienteController extends Cliente implements IApiUsable
 
         $response->getBody()->write($payload);
         return $response
-          ->withHeader('Content-Type', 'application/json')->withStatus(200);
+          ->withHeader('Content-Type', 'application/json');
     }
 
     public function BorrarUno($request, $response, $args)
@@ -114,6 +114,6 @@ class ClienteController extends Cliente implements IApiUsable
 
         $response->getBody()->write($payload);
         return $response
-          ->withHeader('Content-Type', 'application/json')->withStatus(200);
+          ->withHeader('Content-Type', 'application/json');
     }
 }

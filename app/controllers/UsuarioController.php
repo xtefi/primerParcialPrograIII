@@ -39,35 +39,31 @@ class UsuarioController extends Usuario
         ->withHeader('Content-Type', 'application/json')->withStatus(200);
     }
 
-    public function Login($request, $response, $args){
-      //Se verifica el usuario y devuelve el token
+    public function Login($request, $response, $args) {
       $parametros = $request->getParsedBody();
-      $id = $parametros['id'];
-      $usuario = $parametros['usuario'];
-      $pass = $parametros['password'];
-      if(!isset($id) || !isset($pass) || !isset($usuario)){
-        $response->getBody()->write(json_encode(array("error" => "Error en los datos ingresados para login.")));
-        $response = $response->withStatus(400);
-      }else{
-        $usuario = Usuario::obtenerUsuario($id, $usuario);
-        if(isset($usuario)){
-          //Existe el usuario, verificamos el password
-          if(strcmp($pass, $usuario->pass) == 0){
-            $datos = json_encode(array("id_usuario" => $usuario->id, "usuario" => $usuario->usuario, "rol" => $usuario->rol));
-            $token = AutentificadorJWT::CrearToken($datos);
-            $response->getBody()->write(json_encode(array("token" => $token)));
-          }else{
-            echo $pass;
-            echo $usuario->pass;
-          $response->getBody()->write(json_encode(array("error" => "Ocurrió un error, password incorrecto.")));
-          $response = $response->withStatus(400);
-          }        
-        }else{
-          $response->getBody()->write(json_encode(array("error" => "Ocurrió un error al generar el token.")));
-          $response = $response->withStatus(400);
+      $user =  $parametros['usuario'];
+      $pass =  $parametros['password'];
+      $id =  $parametros['id'];
+  
+      if (isset($user) && isset($pass)) {
+        $usuario = Usuario::obtenerUsuario($id, $user);  
+        if (!empty($usuario) && ($user == $usuario->usuario) && ($pass == $usuario->pass)) {  
+          $jwt = AutentificadorJWT::CrearToken($usuario);  
+          $message = [
+            'Autorizacion' => $jwt,
+            'Status' => 'Login success'
+          ];
+        } else {
+          $message = [
+            'Autorizacion' => 'Denegate',
+            'Status' => 'Login failed'
+          ];
         }
-      }
-      return $response->withHeader('Content-Type', 'application/json');
+      }  
+      $payload = json_encode($message);  
+      $response->getBody()->write($payload);
+      return $response
+        ->withHeader('Content-Type', 'application/json');
     }
 
     

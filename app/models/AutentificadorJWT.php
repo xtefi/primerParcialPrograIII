@@ -50,13 +50,9 @@ class AutentificadorJWT
         );
     }
 
-    public static function ObtenerData($token)
+     public static function ObtenerData($token)
     {
-        return JWT::decode(
-            $token,
-            self::$claveSecreta,
-            self::$tipoEncriptacion
-        )->data;
+        return JWT::decode($token, self::$claveSecreta, self::$tipoEncriptacion)->data;
     }
 
     private static function Aud()

@@ -51,10 +51,8 @@ CREATE TABLE logs (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `id_usuario` INT,
     `usuario` VARCHAR(50),
-    `rol` VARCHAR(50),
     `entidad` VARCHAR(50),
     `operacion` VARCHAR(50),
-    `id_entidad` INT,
     `datos_operacion` VARCHAR(5000),
     `datos_resultado_operacion` VARCHAR(1000),
     `fecha_hora` datetime

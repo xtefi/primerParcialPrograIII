@@ -15,44 +15,67 @@ class logsMiddleware
         $path = $request->getUri()->getPath();
         $metodo = $request->getMethod();
         $http_status_code = $response->getStatusCode();
-
+        $param = $request->getParsedBody();
 
         if(str_contains($path, 'login'))                           // LOGIN
         { 
             $request = $request->getParsedBody();
             $id_usuario = $request['id'];
             $usuario = $request['usuario'];
-            if($http_status_code == 200 ){
-                Log::Add($id_usuario, $usuario, "rol", 'LOGIN', 'LOGUEO-SISTEMA', 0, "", "");
-            }
+            Log::Add($id_usuario, $usuario, 'LOGIN', 'LOGUEO-SISTEMA', "", "");
+
         }
         elseif(str_contains($path, 'clientes')){                       // CLIENTES
-            $param = $request->getParsedBody()["body"];
-            $data_token = json_decode($request->getParsedBody()["dataToken"], true);
-            $id_usuario = $data_token['id_usuario'];
-            $usuario = $data_token['usuario'];
-            $rol = $data_token['rol'];
-            if($metodo == 'POST' && $http_status_code == 201){
-                Log::Add($id_usuario, $usuario, $rol, 'CLIENTES', 'CARGAR-UNO', 0, json_encode($param), $response->getBody());
-            }elseif($metodo == 'PUT' && $http_status_code == 200){
-                $id_cliente = $param['id'];
-                Log::Add($id_usuario, $usuario, $rol, 'CLIENTES', 'MODIFICAR-UNO', $id_cliente, json_encode($param), $response->getBody());
-            }elseif($metodo == 'GET' && $http_status_code == 200){
-                if(!empty($param['id'])){
-                    $id_cliente = $param['id'];
-                    Log::Add($id_usuario, $usuario, $rol, 'CLIENTES', 'OBTENER-UNO', $id_cliente, json_encode($param), $response->getBody());
+            $jwtHeader = $request->getHeaderLine('Authorization');
+            $tokenWithoutBearer = str_replace('Bearer ', '', $jwtHeader);
+            $usuario = AutentificadorJWT::ObtenerData($tokenWithoutBearer);
+
+            if($metodo == 'POST'){
+                Log::Add($usuario->id, $usuario->usuario, 'CLIENTES', 'CARGAR-UNO', json_encode($param), $response->getBody());
+            }elseif($metodo == 'PUT'){
+                $id_cliente = $args['id'];
+                Log::Add($usuario->id, $usuario->usuario, 'CLIENTES', 'MODIFICAR-UNO', json_encode($param), $response->getBody());
+            }elseif($metodo == 'GET'){
+                if(!empty($param['idCliente'])){
+                    $id_cliente = $param['idCliente'];
+                    Log::Add($usuario->id, $usuario->usuario, 'CLIENTES', 'OBTENER-UNO', json_encode($param), $response->getBody());
                 }else{
-                    Log::Add($id_usuario, $usuario, $rol, 'CLIENTES', 'OBTENER-TODOS', null, json_encode($param), $response->getBody());                    
+                    Log::Add($usuario->id, $usuario->usuario, 'CLIENTES', 'OBTENER-TODOS', json_encode($param), $response->getBody());                    
                 }
             }
-            elseif($metodo == 'DELETE' && $http_status_code == 200)
+            elseif($metodo == 'DELETE')
             {
                 $id_cliente = $param['id'];
-                Log::Add($id_usuario, $usuario, $rol, 'CLIENTES', 'ELIMINAR-UNO', $id_cliente, json_encode($param), $response->getBody());
+                Log::Add($id_usuario, $usuario, 'CLIENTES', 'ELIMINAR-UNO', json_encode($param), $response->getBody());
             }else { 
-                Log::Add($id_usuario, $usuario, $rol, 'ERROR', null, 'Error', json_encode($param), $response->getBody());
+                Log::Add($id_usuario, $usuario, 'ERROR','Error', json_encode($param), $response->getBody());
             }        
 
+        }elseif(str_contains($path, 'reservas')){
+            $jwtHeader = $request->getHeaderLine('Authorization');
+            $tokenWithoutBearer = str_replace('Bearer ', '', $jwtHeader);
+            $usuario = AutentificadorJWT::ObtenerData($tokenWithoutBearer);
+
+            if($metodo == 'POST'){
+                Log::Add($usuario->id, $usuario->usuario, 'RESERVAS', 'CARGAR-UNO', json_encode($param), $response->getBody());
+            }elseif($metodo == 'PUT'){
+                $id_cliente = $args['id'];
+                Log::Add($usuario->id, $usuario->usuario, 'RESERVAS', 'MODIFICAR-UNO', json_encode($param), $response->getBody());
+            }elseif($metodo == 'GET'){
+                if(!empty($param['idCliente'])){
+                    $id_cliente = $param['idCliente'];
+                    Log::Add($usuario->id, $usuario->usuario, 'RESERVAS', 'OBTENER-UNO', json_encode($param), $response->getBody());
+                }else{
+                    Log::Add($usuario->id, $usuario->usuario, 'RESERVAS', 'OBTENER-TODOS', json_encode($param), $response->getBody());                    
+                }
+            }
+            elseif($metodo == 'DELETE')
+            {
+                $id_cliente = $param['id'];
+                Log::Add($id_usuario, $usuario, 'RESERVAS', 'ELIMINAR-UNO', $id_cliente, json_encode($param), $response->getBody());
+            }else { 
+                Log::Add($id_usuario, $usuario, 'ERROR', null, 'Error', json_encode($param), $response->getBody());
+            } 
         }
         return $response;
 

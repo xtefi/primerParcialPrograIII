@@ -57,7 +57,8 @@ $app->group('/reservas', function (RouteCollectorProxy $group) {
     $group->post('/{id}', \ReservaController::class . ':ModificarUno');
     $group->put('/{idCliente}', \ReservaController::class . ':reservasPorIdCliente');
     $group->delete('/{id}', \ReservaController::class . ':BorrarUno');
-})->add(\permisosMiddleware::class . ':verificarRolRecepcionistaYCliente');
+})->add(\permisosMiddleware::class . ':verificarRolRecepcionistaYCliente')
+  ->add(\logsMiddleware::class . ':LogOperacion');
 
 $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->get('[/]', \UsuarioController::class . ':TraerTodos');
