@@ -16,7 +16,8 @@ require_once './db/AccesoDatos.php';
 require_once './controllers/ClienteController.php';
 require_once './controllers/ReservaController.php';
 require_once './controllers/UsuarioController.php';
-require_once './middlewares/permisosController.php';
+require_once './middlewares/permisosMiddleware.php';
+require_once './middlewares/logsMiddleware.php';
 
 
 
@@ -34,6 +35,11 @@ date_default_timezone_set('America/Argentina/Buenos_Aires');
 // Add parse body
 $app->addBodyParsingMiddleware();
 
+$app->group('/ingresar', function (RouteCollectorProxy $group) {
+    //Accesible para todos los usuarios.
+    $group->post('/login', \UsuarioController::class . ':Login'); 
+})->add(\logsMiddleware::class . ':LogOperacion');
+
 // Routes
 $app->group('/clientes', function (RouteCollectorProxy $group) {
     $group->get('[/]', \ClienteController::class . ':TraerTodos');
@@ -43,7 +49,7 @@ $app->group('/clientes', function (RouteCollectorProxy $group) {
     $group->delete('/{id}', \ClienteController::class . ':BorrarUno')->add(\permisosMiddleware::class . ':verificarRolGerente');
   })
   ->add(\logsMiddleware::class . ':LogOperacion');
-  
+
 $app->group('/reservas', function (RouteCollectorProxy $group) {
     $group->get('[/]', \ReservaController::class . ':TraerTodos');
     $group->get('/{id}', \ReservaController::class . ':TraerUno');

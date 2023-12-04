@@ -18,30 +18,38 @@ class ClienteController extends Cliente implements IApiUsable
         $telefono = $param['telefono'];
         $modoPago = $param['modoPago'];
 
-        // Creamos el cliente
-        $clte = new Cliente();
-        $clte->nombre = strtoupper($nombre);
-        $clte->apellido = strtoupper($apellido);
-        $clte->tipoDocumento = strtoupper($tipoDocumento);
-        $clte->nroDocumento = $nroDocumento;
-        $clte->email = $email;
-        if(strcmp(strtoupper($tipoCliente), "CORPORATIVO")){
-          $clte->tipoCliente = "CORPO-" . $tipoDocumento;
-        }elseif (strcmp(strtoupper($tipoCliente), "INDIVIDUAL")) {
-          $clte->tipoCliente = "INDI-" . $tipoDocumento;
+        if(Cliente::verificarDni($nroDocumento) == true){
+          if(!isset($nombre) || !isset($apellido) || !isset($tipoDocumento) || !isset($nroDocumento) || !isset($email) || !isset($tipoCliente) || !isset($pais) || !isset($ciudad) || !isset($telefono)){
+            $response->getBody()->write(json_encode(array("error" => "Error en la carga de datos, favor verifique")));
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
+          }else{
+                    // Creamos el cliente
+            $clte = new Cliente();
+            $clte->nombre = strtoupper($nombre);
+            $clte->apellido = strtoupper($apellido);
+            $clte->tipoDocumento = strtoupper($tipoDocumento);
+            $clte->nroDocumento = $nroDocumento;
+            $clte->email = $email;
+            if(strcmp(strtoupper($tipoCliente), "CORPORATIVO")){
+              $clte->tipoCliente = "CORPO-" . $tipoDocumento;
+            }elseif (strcmp(strtoupper($tipoCliente), "INDIVIDUAL")) {
+              $clte->tipoCliente = "INDI-" . $tipoDocumento;
+            }
+            $clte->pais = $pais;
+            $clte->ciudad = $ciudad;
+            $clte->telefono = $telefono;
+            $clte->modoPago = $modoPago;
+            $clte->activo = true;
+            $clte->crearCliente();
+
+            $payload = json_encode(array("mensaje" => "Cliente registrado con éxito"));
+
+            $response->getBody()->write($payload);
+            return $response
+              ->withHeader('Content-Type', 'application/json')->withStatus(201);
+          }
         }
-        $clte->pais = $pais;
-        $clte->ciudad = $ciudad;
-        $clte->telefono = $telefono;
-        $clte->modoPago = $modoPago;
-        $clte->activo = true;
-        $clte->crearCliente();
 
-        $payload = json_encode(array("mensaje" => "Cliente registrado con éxito"));
-
-        $response->getBody()->write($payload);
-        return $response
-          ->withHeader('Content-Type', 'application/json')->withStatus(201);
     }
 
     public function TraerUno($request, $response, $args)

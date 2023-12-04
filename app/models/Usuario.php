@@ -29,8 +29,16 @@ class Usuario{
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Usuario');
     }
 
+    public static function obtenerUsuario($id, $usuario)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM Usuarios WHERE id = :id and usuario = :usuario");
+        $consulta->bindValue(':id', $id, PDO::PARAM_INT);
+        $consulta->bindValue(':usuario', $usuario, PDO::PARAM_STR);
+        $consulta->execute();
 
-
+        return $consulta->fetchObject('Usuario');
+    }
 
 
 }

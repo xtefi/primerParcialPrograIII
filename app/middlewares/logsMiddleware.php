@@ -15,20 +15,15 @@ class logsMiddleware
         $path = $request->getUri()->getPath();
         $metodo = $request->getMethod();
         $http_status_code = $response->getStatusCode();
-        
-
-//        ($id_usuario, $usuario, $rol, $operacion, id-entidad, $datos_operacion, $datos_resultado_operacion){
 
 
-        if(str_contains($path, 'login'))
-        {              // LOGUEO
-            $param = $request->getParsedBody();
-            $id_usuario = $param['id'];
-            $usuario = $param['usuario'];
-            $rol = $param['rol'];
-            if($http_status_code == 200 )
-            {
-                Log::Add($id_usuario, $usuario, $rol, 'Ingreso sistema', null, null);
+        if(str_contains($path, 'login'))                           // LOGIN
+        { 
+            $request = $request->getParsedBody();
+            $id_usuario = $request['id'];
+            $usuario = $request['usuario'];
+            if($http_status_code == 200 ){
+                Log::Add($id_usuario, $usuario, "rol", 'LOGIN', 'LOGUEO-SISTEMA', 0, "", "");
             }
         }
         elseif(str_contains($path, 'clientes')){                       // CLIENTES
@@ -57,11 +52,9 @@ class logsMiddleware
             }else { 
                 Log::Add($id_usuario, $usuario, $rol, 'ERROR', null, 'Error', json_encode($param), $response->getBody());
             }        
-        return $response;
-        }
-        else
-        {
 
         }
+        return $response;
+
     }
 }

@@ -39,7 +39,7 @@ class Cliente{
     public static function obtenerCliente($id, $tipoCliente)
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT pais, ciudad, telefono FROM clientes WHERE id = ? AND tipoCliente= ?");
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT pais, ciudad, telefono FROM hoteles WHERE id = ? AND tipoCliente= ?");
         $consulta->bindParam(1, $id);
         $consulta->bindParam(2, $tipoCliente);
         $consulta->execute();
@@ -76,6 +76,17 @@ class Cliente{
         $consulta->bindValue(':tipoDocumento', $tipoDocumento, PDO::PARAM_STR);
         $consulta->bindValue(':nroDocumento', $nroDocumento, PDO::PARAM_STR);
         $consulta->execute();
+    }
+
+    public static function verificarDni($nroDocumento){
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM hoteles WHERE nroDocumento = :nroDocumento");
+        $consulta->bindValue(':nroDocumento', $nroDocumento, PDO::PARAM_STR);
+        $consulta->execute();
+        if(!empty($consulta)){
+            return true;
+        }
+        return false;
     }
 
 }

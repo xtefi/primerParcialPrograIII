@@ -55,7 +55,7 @@ CREATE TABLE logs (
     `entidad` VARCHAR(50),
     `operacion` VARCHAR(50),
     `id_entidad` INT,
-    `datos_operacion` VARCHAR(50),
-    `datos_resultado_operacion` VARCHAR(50),
-    `fecha_hora` VARCHAR(50)
+    `datos_operacion` VARCHAR(5000),
+    `datos_resultado_operacion` VARCHAR(1000),
+    `fecha_hora` datetime
 );
