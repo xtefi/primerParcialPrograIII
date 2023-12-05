@@ -24,22 +24,24 @@ class ReservaController extends Reserva implements IApiUsable
         $extensionFoto = $_FILES['fotoReserva']['type'];
         $tamanoFoto = $_FILES['fotoReserva']['size'];
         $ruta_destino = $carpetaFoto . $nombreFoto . ".jpg";
-        if(isset($fotoReserva)) {
-          Reserva::guardarFoto($extensionFoto, $tamanoFoto, true, $carpetaFoto, $fotoReserva, $ruta_destino);
+
+        if($fechaEntrada <= $fechaSalida){
+          if(isset($fotoReserva)) {
+            Reserva::guardarFoto($extensionFoto, $tamanoFoto, true, $carpetaFoto, $fotoReserva, $ruta_destino);
+          }
+  
+          // Creamos la reserva
+          $rsv = new Reserva();
+          $rsv->tipoCliente = $tipoCliente;
+          $rsv->idCliente = $idCliente;
+          $rsv->fechaEntrada = $fechaEntrada;
+          $rsv->fechaSalida = $fechaSalida;
+          $rsv->tipoHabitacion = $tipoHabitacion;
+          $rsv->importe = $importe;
+          $rsv->activa = true;
+          $rsv->ajuste = "";
+          $rsv->crearReserva();
         }
-
-        // Creamos la reserva
-        $rsv = new Reserva();
-        $rsv->tipoCliente = $tipoCliente;
-        $rsv->idCliente = $idCliente;
-        $rsv->fechaEntrada = $fechaEntrada;
-        $rsv->fechaSalida = $fechaSalida;
-        $rsv->tipoHabitacion = $tipoHabitacion;
-        $rsv->importe = $importe;
-        $rsv->activa = true;
-        $rsv->ajuste = "";
-        $rsv->crearReserva();
-
 
 
         $payload = json_encode(array("mensaje" => "Reserva registrado con éxito"));

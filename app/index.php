@@ -16,10 +16,9 @@ require_once './db/AccesoDatos.php';
 require_once './controllers/ClienteController.php';
 require_once './controllers/ReservaController.php';
 require_once './controllers/UsuarioController.php';
+require_once './controllers/LogsController.php';
 require_once './middlewares/permisosMiddleware.php';
 require_once './middlewares/logsMiddleware.php';
-
-
 
 // Load ENV
 // $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -44,10 +43,11 @@ $app->group('/ingresar', function (RouteCollectorProxy $group) {
 $app->group('/clientes', function (RouteCollectorProxy $group) {
     $group->get('[/]', \ClienteController::class . ':TraerTodos');
     $group->get('/{id}', \ClienteController::class . ':TraerUno');
-    $group->post('[/]', \ClienteController::class . ':CargarUno')->add(\permisosMiddleware::class . ':verificarRolGerente');
+    $group->post('[/]', \ClienteController::class . ':CargarUno');
     $group->put('/{id}', \ClienteController::class . ':ModificarUno');
-    $group->delete('/{id}', \ClienteController::class . ':BorrarUno')->add(\permisosMiddleware::class . ':verificarRolGerente');
+    $group->delete('/{id}', \ClienteController::class . ':BorrarUno');
   })
+  ->add(\permisosMiddleware::class . ':verificarRolGerente')
   ->add(\logsMiddleware::class . ':LogOperacion');
 
 $app->group('/reservas', function (RouteCollectorProxy $group) {
@@ -65,6 +65,10 @@ $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->post('[/]', \UsuarioController::class . ':CargarUno');
 });
 
+$app->group('/logs', function (RouteCollectorProxy $group) {
+    $group->get('/crearCsv', \LogsController::class . ':EndPointEscribirCsv');
+    $group->get('/crearPdf', \LogsController::class . ':EndPointEscribirPdf');
+});
 
 
 $app->get('[/]', function (Request $request, Response $response) {    

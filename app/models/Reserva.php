@@ -84,8 +84,6 @@ class Reserva{
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Reserva');
     }
 
-    ////////////////////////
-    ////// GET RESERVAS CON FECHA QUE NO ANDA
     
     public static function listadoFechaDesdeHasta($fechaDesde, $fechaHasta){
         $objAccesoDatos = AccesoDatos::obtenerInstancia();

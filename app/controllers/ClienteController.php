@@ -105,9 +105,30 @@ class ClienteController extends Cliente implements IApiUsable
     {
         $parametros = $request->getQueryParams();
 
+        //foto
+        $nuevoDestino = 'C:/Users/54113/Desktop/ImagenesBackupClientes/2023/';
+        $carpetaFoto = 'C:/Users/54113/Desktop/ImagenesDeReservas2023/';
+        $nombreFoto = $tipoCliente . "-" . $idCliente . "-" ;
+        $ruta_antiguoDestino = $carpetaFoto . $nombreFoto . ".jpg";
+        $ruta_nuevoDestino = $nuevoDestino . $nombreFoto . ".jpg";
+
+        //datos clte
         $id = $args['id'];
         $tipoDocumento = $parametros['tipoDocumento'];
         $nroDocumento = $parametros['nroDocumento'];
+
+        if(file_exists($ruta_antiguoDestino)) {  
+          if(!is_dir($nuevoDestino)){
+              mkdir($nuevoDestino, 0777, true);
+          }  
+          if (rename($ruta_antiguoDestino, $ruta_nuevoDestino)) {
+              echo "\nLa foto del cliente se ha movido a $ruta_nuevoDestino.";
+          } else {
+              echo "\nError al mover el archivo.";
+          }
+        } else {
+            echo "\nEl archivo no existe en el directorio origen.";
+        }
         Cliente::borrarCliente($id, $tipoDocumento, $nroDocumento);
 
         $payload = json_encode(array("mensaje" => "Se ha dado de baja el cliente"));
@@ -116,4 +137,6 @@ class ClienteController extends Cliente implements IApiUsable
         return $response
           ->withHeader('Content-Type', 'application/json');
     }
+
+
 }
